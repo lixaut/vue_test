@@ -1,7 +1,8 @@
 <template>
-  <div class="demo">
-    <h2>学校名称：{{name}}</h2>
+  <div>
+    <h2>学校名称：{{name | mySlice}}</h2>
     <h2>学校地址：{{address}}</h2>
+    <input type="text" v-fbind:value="name">
   </div>
 </template>
 
@@ -16,9 +17,3 @@
     }
   }
 </script>
-
-<style scoped>
-  .demo {
-    background-color: orange;
-  }
-</style>
