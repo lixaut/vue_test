@@ -26,15 +26,15 @@
 
      3. 第三种方式（限制类型、限制必要性、指定默认值）：
 
-```
-props: {
-  name: {
-    type: String,
-    required: true,
-    default: '老王'
-  }
-}
-```
+      ```
+      props: {
+        name: {
+          type: String,
+          required: true,
+          default: '老王'
+        }
+      }
+      ```
 2. 备注：props是只读的，Vue底层会监测对props的修改，如果进行了修改，就会发出警告，若业务需求确实需要修改，那么请复制props的内容到data中一份，然后去修改data中的数据。
 
 ## mixin（混入）
@@ -44,15 +44,15 @@ props: {
 2. 使用方式：
 
    * 第一步定义混合：
-```
-{
-  data() { ... },
-  methods: { ... },
-  ...
-}
-```
+    ```
+    {
+      data() { ... },
+      methods: { ... },
+      ...
+    }
+    ```
    * 第二步使用混入：
 
-    * 全局混入：`Vue.mixin(xxx)`
+     * 全局混入：`Vue.mixin(xxx)`
 
-    * 局部混入：`mixins: [xxx]`
+     * 局部混入：`mixins: [xxx]`
