@@ -6,6 +6,8 @@
 </template>
 
 <script>
+  import pubsub from 'pubsub-js'
+
   export default {
     name: 'School',
     data() {
@@ -14,13 +16,20 @@
         address: 'xian',
       }
     },
+    methods: {
+      demo(msgName, data) {
+        console.log('hello消息收到了', data)
+      }
+    },
     mounted() {
-      this.$bus.$on('hello', (data) => {
-        console.log('我是School组件，接受到了学生数据：', data)
-      })
+      // this.$bus.$on('hello', (data) => {
+      //   console.log('我是School组件，接受到了学生数据：', data)
+      // })
+      this.pubId = pubsub.subscribe('hello', this.demo)
     },
     beforeDestroy() {
-      this.$bus.$off('hello')
+      // this.$bus.$off('hello')
+      pubsub.unsubscribe(this.pubId)
     },
   }
 </script>
