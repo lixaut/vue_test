@@ -6,5 +6,9 @@ module.exports = {
     }
   },
   // 关闭语法检查
-  lintOnSave: false
+  lintOnSave: false,
+  // 开启代理服务器
+  // devServer: {
+  //   proxy: 'http://localhost:xxxx'
+  // }
 }
