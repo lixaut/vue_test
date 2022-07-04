@@ -3,7 +3,7 @@ import Vue from "vue"
 // 引入 App
 import App from "./App.vue"
 // 引入 store
-import store from './sotre'
+import store from './store'
 
 // 关闭生产提示
 Vue.config.productionTip = false
