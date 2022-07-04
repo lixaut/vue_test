@@ -26,7 +26,7 @@
 
      3. 第三种方式（限制类型、限制必要性、指定默认值）：
 
-      ```
+      ```js
       props: {
         name: {
           type: String,
@@ -44,7 +44,7 @@
 2. 使用方式：
 
    * 第一步定义混合：
-    ```
+    ```js
     {
       data() { ... },
       methods: { ... },
@@ -65,7 +65,7 @@
 
 3. 定义插件：
 
-```
+```js
 对象.install = function (Vue, options) {
   // 1. 添加过滤器
   Vue.filter(...)
@@ -102,7 +102,7 @@
 
     * 第二种，在父组件中：
 
-    ```
+    ```js
     <Demo ref="demo"/>
     ...
     mounted() {
@@ -126,7 +126,7 @@
 
 2. 安装全局事件总线：
 
-    ```
+    ```js
     new Vue({
       ...
       beforeCreate() {
@@ -141,7 +141,7 @@
 
     * 接受数据：A组件想接收数据，则在A组件中给$bus绑定自定义事件，事件的回调留在A组件自身。
 
-    ```
+    ```js
     methods: {
       demo(data) { ... }
     },
@@ -167,7 +167,7 @@
 
     3. 接受数据：A组件想接收数据，则在A组件中订阅消息，订阅的回调留在A组件自身。
 
-    ```
+    ```js
     methods: {
       demo(data) {
         ...
@@ -205,7 +205,7 @@
 
     2. 使用`<transition>`包裹要过渡的元素，并配置name属性：
 
-    ```
+    ```html
     <transition name="hello">
       <h1 v-show="isShow">你好！</h1>
     </transition>
@@ -219,7 +219,7 @@
  
 在vue.config.js中添加如下配置：
 
-```
+```js
 devServer: {
   proxy: 'http://localhost:5000'
 }
@@ -237,7 +237,7 @@ devServer: {
 
 编写vue.config.js配置具体代理规则：
 
-```
+```js
 module.exports = {
   devserver: {
     proxy: {
@@ -258,6 +258,7 @@ module.exports = {
   changeOrigin设置为true时，服务器收到的请求头中的host为：localhost:5000
   changeOrigin设置为false时，服务器收到的请求头中的host为：localhost:8080
   changeOrigin默认值为true
+*/
 ```
 
 说明：
@@ -276,42 +277,42 @@ module.exports = {
 
     * 默认插槽：
 
-    ```html
-    父组件中：
-    <Category>
-      <div>html结构1</div>
-    </Category>
-    子组件中：
-    <template>
-      <div>
-        <!-- 定义插槽 -->
-        <slot>插槽默认内容</slot>
-      </div>
-    </template>
-    ```
+      ```html
+      父组件中：
+      <Category>
+        <div>html结构1</div>
+      </Category>
+      子组件中：
+      <template>
+        <div>
+          <!-- 定义插槽 -->
+          <slot>插槽默认内容</slot>
+        </div>
+      </template>
+      ```
 
     * 具名插槽：
 
-    ```html
-    父组件中：
-    <Category>
-      <template slot="center">
-        <div>html结构1</div>
-      </template>
+      ```html
+      父组件中：
+      <Category>
+        <template slot="center">
+          <div>html结构1</div>
+        </template>
 
-      <template v-slot:footer>
-        <div>html结构2</div>
+        <template v-slot:footer>
+          <div>html结构2</div>
+        </template>
+      </Category>
+      子组件中：
+      <template>
+        <div>
+          <!-- 定义插槽 -->
+          <slot name="center">插槽默认内容</slot>
+          <slot name="footer">插槽默认内容</slot>
+        </div>
       </template>
-    </Category>
-    子组件中：
-    <template>
-      <div>
-        <!-- 定义插槽 -->
-        <slot name="center">插槽默认内容</slot>
-        <slot name="footer">插槽默认内容</slot>
-      </div>
-    </template>
-    ```
+      ```
 
     * 作用域插槽：
 
@@ -348,3 +349,57 @@ module.exports = {
           }
         </script>
         ```
+
+## vuex
+
+1. 概念
+
+在Vue中实现集中式状态（数据）管理的一个Vue插件，对vue应用中的多个组件的共享状态进行集中式的管理（读/写），也是一种组件间的通信的方式，且适用于任意组件间的通信。
+
+2. 何时使用？
+
+多个组件需要共享数据时
+
+3. 搭建vuex环境
+
+    1. 创建文件：`src/store/index.js`
+
+        ```js
+        // 引入Vue核心库
+        import Vue from 'vue'
+        // 引入Vuex
+        import Vuex from 'vuex'
+        // 应用Vuex组件
+        Vue.use(Vuex) 
+
+        // 准备actions对象（响应组件中用户的动作）
+        const actions = {}
+        // 准备mutations对象（修改state中的数据）
+        const mutations = {}
+        // 准备state对象（保存具体的数据）
+        const state = {}
+
+        // 创建并暴露store
+        export default new Vuex.Store({
+          actions,
+          mutations,
+          state
+        })
+        ```
+
+      1. 在`main.js`中创建`vm`时传入`store`配置项
+
+          ```js
+          ...
+          // 引入store
+          import store from './store'
+          ...
+
+          // 创建vm
+          new Vue({
+            el: '#app',
+            render: h => h(App),
+            store
+          })
+          ```
+
