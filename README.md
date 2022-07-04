@@ -362,32 +362,32 @@ module.exports = {
 
 3. 搭建vuex环境
 
-    1. 创建文件：`src/store/index.js`
+      1. 创建文件：`src/store/index.js`
 
-        ```js
-        // 引入Vue核心库
-        import Vue from 'vue'
-        // 引入Vuex
-        import Vuex from 'vuex'
-        // 应用Vuex组件
-        Vue.use(Vuex) 
+          ```js
+          // 引入Vue核心库
+          import Vue from 'vue'
+          // 引入Vuex
+          import Vuex from 'vuex'
+          // 应用Vuex组件
+          Vue.use(Vuex) 
 
-        // 准备actions对象（响应组件中用户的动作）
-        const actions = {}
-        // 准备mutations对象（修改state中的数据）
-        const mutations = {}
-        // 准备state对象（保存具体的数据）
-        const state = {}
+          // 准备actions对象（响应组件中用户的动作）
+          const actions = {}
+          // 准备mutations对象（修改state中的数据）
+          const mutations = {}
+          // 准备state对象（保存具体的数据）
+          const state = {}
 
-        // 创建并暴露store
-        export default new Vuex.Store({
-          actions,
-          mutations,
-          state
-        })
-        ```
+          // 创建并暴露store
+          export default new Vuex.Store({
+            actions,
+            mutations,
+            state
+          })
+          ```
 
-      1. 在`main.js`中创建`vm`时传入`store`配置项
+      2. 在`main.js`中创建`vm`时传入`store`配置项
 
           ```js
           ...
@@ -403,3 +403,47 @@ module.exports = {
           })
           ```
 
+4. 基本使用
+
+    1. 初始化数据、配置actions、配置mutations，操作文件store.js
+
+        ```js
+        // 引入Vue核心库
+        import Vue from 'vue'
+        // 引入Vuex
+        import Vuex from 'vuex'
+        // 使用Vuex
+        Vue.use(Vuex)
+
+        const actions = {
+          // 响应组件中加的动作
+          jia(context, value) {
+            context.conmmit('JIA', value)
+          }
+        }
+
+        const mutations = {
+          // 执行加
+          JIA(state, value) {
+            state.sum += value
+          }
+        }
+
+        // 初始化数据
+        const state = {
+          sum: 0
+        }
+
+        // 创建并暴露store
+        export default new Vuex.Store({
+          actions,
+          mutations,
+          state
+        })
+        ```
+
+    2. 组件中读取vuex中的数据：`$store.state.sum`
+
+    3. 组件中修改vuex中的数据：`$store.dispatch('actions中的方法名', 数据)`或者`$store.commit('mutations中的方法名', 数据)`
+
+> 备注：若没有网络请求或其他业务逻辑，组件中也可以越过actions，即不写dispatch，直接写commit。
