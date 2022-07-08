@@ -650,3 +650,199 @@ export default router
 3. 每个组件都有自己的`$route`属性，里面存储着自己的路由信息。
 
 4. 整个应用只有一个router，可以通过组件的`$router`属性获取到。
+
+## 多级路由
+
+1. 配置路由规则，使用children配置项：
+
+```js
+routes: [
+  {
+    path: '/about',
+    component: About,
+  },
+  {
+    path: '/home',
+    component: Home,
+    children: [
+      {
+        path: 'news',  // 此处一定不要写：/news
+        component: News
+      },
+      {
+        path: 'message',  // 此处一定不要写：/message
+        component: Message
+      }
+    ]
+  }
+]
+```
+
+2. 跳转（要写完整路径）：
+
+```html
+<router-link to="/home/news">News</router-link>
+```
+
+## 路由的query参数
+
+1. 传递参数
+
+```html
+<!-- 跳转并携带query参数，to的字符串写法 -->
+<router-link :to="/home/message/detail?id=66&title=你好">跳转</router-link>
+
+<!-- 跳转并携带query参数，to的对象写法 -->
+<router-link 
+:to="{
+  path: '/home/message/detail',
+  query: {
+    id: 66,
+    title: '你好'
+  }
+}"
+>跳转</router-link>
+```
+
+2. 接受参数：
+
+```js
+$route.query.id
+$route.query.title
+```
+
+## 命名路由
+
+1. 作用：可以简化路由的跳转。
+
+2. 如何使用
+
+    * 给路由命名
+
+      ```js
+      {
+        path: '/demo',
+        component: Deme,
+        children: [
+          {
+            path: 'test',
+            component: Test,
+            children: [
+              {
+                name: 'hello'  // 给路由命名
+                path: 'welcome',
+                component: Hello
+              }
+            ]
+          }
+        ]
+      }
+      ```
+
+    * 简化跳转：
+
+      ```html
+      <!-- 简化前，需要写完整的路径 -->
+      <router-link to="/deml/test/welcome">跳转</router-link>
+
+      <!-- 简化后，直接通过名字跳转 -->
+      <router-link :to="{name: 'hello'}">跳转</router-link>
+
+      <!-- 简化写法配合传递参数 -->
+      <router-link 
+        :to="{
+          name: 'hello',
+          query: {
+            id: 66,
+            title: '你好'
+          }
+        }"
+      >跳转</router-link>
+      ```
+
+## 路由的params参数
+
+1. 配置路由，声明接受params参数
+
+```js
+{
+  path: '/home',
+  component: Home,
+  children: [
+    {
+      path: 'news',
+      component: News
+    },
+    {
+      path: 'message',
+      component: Message,
+      children: [
+        {
+          name: 'xiangqing',
+          path: 'detail/:id/:title',  // 使用占位符声明接受params参数
+          component: Detail
+        }
+      ]
+    }
+  ]
+}
+```
+
+2. 传递参数
+
+```html
+<!-- 跳转并携带params参数，to的字符串写法 -->
+<router-link :to="/home/message/detail/66/你好">跳转</router-link>
+
+<!-- 跳转并携带params参数，to的对象写法 -->
+<router-link
+  :to="{
+    name: 'xiangqing',
+    params: {
+      id: 66,
+      title: '你好'
+    }
+  }"
+></router-link>
+```
+
+3. 接受参数：
+
+```js
+$route.params.id
+$route.params.title
+```
+
+## 路由的props配置
+
+**作用：** 让路由组件更方便的收到参数。
+
+```js
+{
+  name: 'xiangqing',
+  path: 'detail/:id',
+  component: Detail,
+
+  // 第一种写法：props值为对象，该对象中所有的key-value的组合最终都会通过props传给Deatil组件
+  // props: {a: 8}
+
+  // 第二种写法：props值为布尔值，布尔值为true，则把路由收到的所有params参数通过props传给Detail组件
+  // props: true
+
+  // 第三种写法：props值为函数，该函数返回的对象中每一组key-value都会通过props传给Detail组件
+  props(route) {
+    return {
+      id: route.query.id,
+      title: route.query.title
+    }
+  }
+}
+```
+
+## `<router-link>`的replace属性
+
+1. 作用：控制路由跳转时操作浏览器历史记录的模式
+
+2. 浏览器历史记录有两种写入方式：分别为`push`和`replace`,`push`是追加历史记录，`replace`是替换当前记录。路由跳转时候默认为`push`
+
+3. 如何开启`replace`模式：`<router-link replace ...>News</router-link>`
