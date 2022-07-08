@@ -1,4 +1,28 @@
-# 笔记
+<font size="5">目录</font>
+
+- [ref属性](#ref属性)
+- [配置项props](#配置项props)
+- [mixin（混入）](#mixin混入)
+- [插件](#插件)
+- [scoped样式](#scoped样式)
+- [组件的自定义事件](#组件的自定义事件)
+- [全局事件总线（GlobalEventBus）](#全局事件总线globaleventbus)
+- [消息订阅与发布（pubsub）](#消息订阅与发布pubsub)
+- [Vue封装的过渡与动画](#vue封装的过渡与动画)
+- [vue脚手架配置代理](#vue脚手架配置代理)
+- [插槽](#插槽)
+- [vuex](#vuex)
+- [getters的使用](#getters的使用)
+- [四个map方法的使用](#四个map方法的使用)
+- [模块化+命名空间](#模块化命名空间)
+- [路由](#路由)
+  - [1.基本使用](#1基本使用)
+  - [2.多级路由](#2多级路由)
+  - [3.路由的query参数](#3路由的query参数)
+  - [4.命名路由](#4命名路由)
+  - [5.路由的params参数](#5路由的params参数)
+  - [6.路由的props配置](#6路由的props配置)
+  - [7.`<router-link>`的replace属性](#7router-link的replace属性)
 
 ## ref属性
 
@@ -11,6 +35,8 @@
    * 打标识：`<h1> ref="xxx">...</h1>`或`<School ref="xxx"></School>`。
 
    * 获取：`this.$refs.xxx`。
+
+&nbsp;
 
 ## 配置项props
 
@@ -37,6 +63,8 @@
       ```
 2. 备注：props是只读的，Vue底层会监测对props的修改，如果进行了修改，就会发出警告，若业务需求确实需要修改，那么请复制props的内容到data中一份，然后去修改data中的数据。
 
+&nbsp;
+
 ## mixin（混入）
 
 1. 功能：可以把多个组件公用的配置提取成一个混入对象。
@@ -56,6 +84,8 @@
      * 全局混入：`Vue.mixin(xxx)`
 
      * 局部混入：`mixins: [xxx]`
+
+&nbsp;
 
 ## 插件
 
@@ -84,11 +114,15 @@
 
 4. 使用插件：`Vue.use()`
 
+&nbsp;
+
 ## scoped样式
 
 1. 作用：让样式在局部生效，防止冲突。
 
 2. 写法：`<style scoped></style>`
+
+&nbsp;
 
 ## 组件的自定义事件
 
@@ -119,6 +153,8 @@
 6. 组件上也可以绑定原生DOM事件，需要使用`native`修饰符。
 
 7. 注意：通过`this.$refs.xxx.$on('xaut', 回调)`绑定自定义事件时，回调要么配置在methods中，要么使用尖头函数，否则this指向会出问题。
+
+&nbsp;
 
 ## 全局事件总线（GlobalEventBus）
 
@@ -155,6 +191,8 @@
 
 4. 最好在`beforeDestroy`钩子中，用`$off()`去解绑当前组件绑定在总线上的事件。
 
+&nbsp;
+
 ## 消息订阅与发布（pubsub）
 
 1. 一种组件间通信方式，适用于任意组件间通信。
@@ -182,6 +220,8 @@
     4. 提供数据：`pubsub.publish('xxx', 数据)`
 
     5. 最好在beforeDestroy钩子中，用`pubsub.unsubscribe(pid)`去取消订阅。
+
+&nbsp;
 
 ## Vue封装的过渡与动画
 
@@ -212,6 +252,8 @@
     ```
 
     3. 备注：若有多个元素需要过渡，则需要使用：`<transition-group>`,且每个元素都要指定`key`值。
+
+&nbsp;
 
 ## vue脚手架配置代理
 
@@ -266,6 +308,8 @@ module.exports = {
 * 优点：可以配置多个代理，且可以灵活的控制请求是否走代理。
 
 * 缺点：配置略显繁琐，请求资源时必须加前缀。
+
+&nbsp;
 
 ## 插槽
 
@@ -349,6 +393,8 @@ module.exports = {
           }
         </script>
         ```
+
+&nbsp;
 
 ## vuex
 
@@ -448,6 +494,8 @@ module.exports = {
 
 > 备注：若没有网络请求或其他业务逻辑，组件中也可以越过actions，即不写dispatch，直接写commit。
 
+&nbsp;
+
 ## getters的使用
 
 1. 概念：当state中的数据需要加工后再使用时，可以使用getters加工。
@@ -468,6 +516,8 @@ export default new Vuex.Store({
 ```
 
 3. 组件中读取数据：`$store.getters.bigSum`
+
+&nbsp;
 
 ## 四个map方法的使用
 
@@ -520,6 +570,8 @@ methods() {
 ```
 
 > 备注：mapActions与mapMutations使用时，若需要传递参数需要，在模版中绑定事件时传递好参数，否则参数是事件对象。
+
+&nbsp;
 
 ## 模块化+命名空间
 
@@ -591,6 +643,8 @@ this.$store.commit('personAbout/ADD_PERDON', person)
 ...mapMutations('countAbout', {increment: 'JIA', decrement: 'JIAN'})
 ```
 
+&nbsp;
+
 ## 路由
 
 1. 理解：一个路由（route）就是一组映射关系（key-value），多个路由需要路由器（router）进行管理。
@@ -630,12 +684,12 @@ const router = new VueRouter({
 export default router
 ```
 
-### 4.实现切换（active-class可配置高亮样式）
+4.实现切换（active-class可配置高亮样式）
 
 ```js
 <router-link active-class="active" to="/about">About</router-link>
 ```
-### 5.指定展示位置
+5.指定展示位置
 
 ```js
 <router-view></router-view>
@@ -651,7 +705,7 @@ export default router
 
 4. 整个应用只有一个router，可以通过组件的`$router`属性获取到。
 
-## 多级路由
+### 2.多级路由
 
 1. 配置路由规则，使用children配置项：
 
@@ -684,7 +738,7 @@ routes: [
 <router-link to="/home/news">News</router-link>
 ```
 
-## 路由的query参数
+### 3.路由的query参数
 
 1. 传递参数
 
@@ -711,7 +765,7 @@ $route.query.id
 $route.query.title
 ```
 
-## 命名路由
+### 4.命名路由
 
 1. 作用：可以简化路由的跳转。
 
@@ -760,7 +814,7 @@ $route.query.title
       >跳转</router-link>
       ```
 
-## 路由的params参数
+### 5.路由的params参数
 
 1. 配置路由，声明接受params参数
 
@@ -813,7 +867,7 @@ $route.params.id
 $route.params.title
 ```
 
-## 路由的props配置
+### 6.路由的props配置
 
 **作用：** 让路由组件更方便的收到参数。
 
@@ -839,7 +893,7 @@ $route.params.title
 }
 ```
 
-## `<router-link>`的replace属性
+### 7.`<router-link>`的replace属性
 
 1. 作用：控制路由跳转时操作浏览器历史记录的模式
 
