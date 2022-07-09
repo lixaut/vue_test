@@ -25,6 +25,8 @@
   - [7.`<router-link>`的replace属性](#7router-link的replace属性)
   - [8.编程式路由导航](#8编程式路由导航)
   - [9.缓存路由组件](#9缓存路由组件)
+  - [10.两个新的生命周期钩子](#10两个新的生命周期钩子)
+  - [11.路由守卫](#11路由守卫)
 
 ## ref属性
 
@@ -942,4 +944,76 @@ this.$router.go()  // 可前进/后退
 <keep-alive include="News">
   <router-view></router-view>
 </keep-alive>
+```
+
+### 10.两个新的生命周期钩子
+
+1. 作用：路由组件所独有的两个钩子，用于捕获路由组件的激活状态。
+
+2. 具体名字：
+
+    * activated 路由组件被激活时触发。
+
+    * deactivated 路由组件失活时触发。
+
+### 11.路由守卫
+
+1. 作用：对路由进行权限控制。
+
+2. 分类：
+
+    * 全局守卫
+    * 独享守卫
+    * 组件内守卫
+
+3. 全局守卫：
+
+```js
+// 全局前置守卫，初始化时执行，每次路由切换前执行
+router.beforeEach((to, from, next) => {
+  // 判断当前路由是否需要进行权限控制
+  if(to.meta.isAuth) {
+    if(localStorage.getItem('school') === 'xaut') {
+      next()
+    } else {
+      alert('暂无权限查看')
+    }
+  } else {
+    next()
+  }
+})
+
+// 全局后置守卫，初始化时执行，每次路由切换后执行
+router.afterEach((to, from) => {
+  if(to.meta.title) {
+    document.title = to.meta.title
+  } else {
+    document.title = 'vue_test'
+  }
+})
+```
+
+4. 独享守卫：
+
+```js
+beforeEnter(to, from, next) {
+  if(to.meta.isAuth) {
+    if(localStorage.getItem('school') === 'xaut') {
+      next()
+    } else {
+      alert('暂无权查看')
+    }
+  } else {
+    next()
+  }
+}
+```
+
+5. 组件内守卫：
+
+```js
+// 进入守卫，通过路由规则，进入该组件时被调用
+beforeRouteEnter(to, from, next) { ... }
+// 离开守卫，通过路由规则，离开该组件时倍调用
+beforeRouteLeave(to, from, next) { ... }
 ```
