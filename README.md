@@ -23,6 +23,8 @@
   - [5.路由的params参数](#5路由的params参数)
   - [6.路由的props配置](#6路由的props配置)
   - [7.`<router-link>`的replace属性](#7router-link的replace属性)
+  - [8.编程式路由导航](#8编程式路由导航)
+  - [9.缓存路由组件](#9缓存路由组件)
 
 ## ref属性
 
@@ -900,3 +902,44 @@ $route.params.title
 2. 浏览器历史记录有两种写入方式：分别为`push`和`replace`,`push`是追加历史记录，`replace`是替换当前记录。路由跳转时候默认为`push`
 
 3. 如何开启`replace`模式：`<router-link replace ...>News</router-link>`
+
+### 8.编程式路由导航
+
+1. 作用：不借助`<router-link>`实现路由跳转，让路由跳转更加灵活。
+
+2. 具体编码：
+
+```js
+// $router的两个API
+this.$router.push({
+  name: 'xiangqing',
+  params: {
+    id: xx,
+    title: xx
+  }
+})
+
+this.$router.replace({
+  name: 'xiangqing',
+  params: {
+    id: xx,
+    title: xx
+  }
+})
+
+this.$router.forward()  // 前进
+this.$router.back()  // 后退
+this.$router.go()  // 可前进/后退
+```
+
+### 9.缓存路由组件
+
+1. 作用：让不展示的路由组件保持挂载，不被销毁。
+
+2. 具体编码：
+
+```html
+<keep-alive include="News">
+  <router-view></router-view>
+</keep-alive>
+```
